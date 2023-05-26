@@ -1,13 +1,16 @@
 package br.com.vitoria.courseSystem.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,12 +27,15 @@ public class Course implements Serializable{
 	@Column(name="minimun_grade")
 	private Double minimumGrade;
 	
+	@OneToMany(mappedBy="course")
+	private Set<Class> classes = new HashSet<>();
+	
 	public Course() {
 		
 	}
 
-	public Course(Integer id, String name, Integer workload, Double price, Double minimumGrade) {
-		this.id = id;
+	public Course(String name, Integer workload, Double price, Double minimumGrade) {
+	
 		this.name = name;
 		this.workload = workload;
 		this.price = price;
