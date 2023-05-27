@@ -22,13 +22,14 @@ public class Course implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	
+	
+
 	private Integer workload;
 	private Double price;
 	@Column(name="minimun_grade")
 	private Double minimumGrade;
 	
-	@OneToMany(mappedBy="course")
-	private Set<Class> classes = new HashSet<>();
 	
 	public Course() {
 		
