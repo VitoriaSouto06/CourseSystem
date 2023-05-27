@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,38 +18,36 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Table;
 @Entity
-@Table(name="tb_student")
-public class Student implements Serializable{
+@Table(name="tb_team")
+public class Team implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
-	private String cpf;
-	@Column(name="birth_date")
-	private Instant birthDate;
+	private Integer number;
+	private Instant date;
+	@Column(name="number_of_vacancies")
+	private Integer numberOfVacancies;
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy="students")
-	private Set<Team> team = new HashSet<>();
-
+	
 	@ManyToMany
-	@JoinTable(name="tb_student_test",
-	joinColumns = @JoinColumn(name="student_id"),
-	inverseJoinColumns = @JoinColumn(name="test_id"))
-	private Set<Test> test = new HashSet<>();
+	@JoinTable(name="tb_team_student",
+	joinColumns = @JoinColumn(name="team_id"),
+	inverseJoinColumns = @JoinColumn(name="student_id"))
+	private Set<Student> students = new HashSet<>();
 	
-	public Student() {
-
+	public Team(Integer number, Instant date, Integer numberOfVacancies) {
+		
+		this.number = number;
+		this.date = date;
+		this.numberOfVacancies = numberOfVacancies;
 	}
-	public Student(String name, String cpf, Instant birthDate) {
-	
-		this.name = name;
-		this.cpf = cpf;
-		this.birthDate = birthDate;
+	public Team() {
+		super();
 	}
 	public Integer getId() {
 		return id;
@@ -54,34 +55,31 @@ public class Student implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public Integer getNumber() {
+		return number;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
-	public String getCpf() {
-		return cpf;
+	public Instant getDate() {
+		return date;
 	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setDate(Instant date) {
+		this.date = date;
 	}
-	public Instant getBirthDate() {
-		return birthDate;
+	public Integer getNumberOfVacancies() {
+		return numberOfVacancies;
 	}
-	public void setBirthDate(Instant birthDate) {
-		this.birthDate = birthDate;
+	public void setNumberOfVacancies(Integer numberOfVacancies) {
+		this.numberOfVacancies = numberOfVacancies;
 	}
 	
-	public Set<Team> getTeam() {
-		return team;
-	}
 
 	
-	public Set<Test> getTests() {
-		return test;
+	public Set<Student> getStudents() {
+		return students;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -94,10 +92,9 @@ public class Student implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Student other = (Student) obj;
+		Team other = (Team) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 	
 	
 }
