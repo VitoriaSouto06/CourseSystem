@@ -18,7 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_team")
@@ -39,6 +39,10 @@ public class Team implements Serializable{
 	joinColumns = @JoinColumn(name="team_id"),
 	inverseJoinColumns = @JoinColumn(name="student_id"))
 	private Set<Student> students = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name="courses_id")
+	private Course course;
 	
 	public Team(Integer number, Instant date, Integer numberOfVacancies) {
 		
@@ -80,6 +84,14 @@ public class Team implements Serializable{
 		return students;
 	}
 	
+	public Course getCourse() {
+		return course;
+	}
+	
+	
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

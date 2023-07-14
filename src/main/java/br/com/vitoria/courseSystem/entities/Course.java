@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,14 +24,14 @@ public class Course implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	
-	
-
 	private Integer workload;
 	private Double price;
 	@Column(name="minimun_grade")
 	private Double minimumGrade;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="course")
+	private Set<Team> teams = new HashSet<>();
 	
 	public Course() {
 		
@@ -82,6 +84,13 @@ public class Course implements Serializable{
 	public void setMinimumGrade(Double minimumGrade) {
 		this.minimumGrade = minimumGrade;
 	}
+
+	
+	public Set<Team> getTeams() {
+		return teams;
+	}
+
+	
 
 	@Override
 	public int hashCode() {

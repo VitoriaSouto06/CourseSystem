@@ -4,42 +4,39 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import br.com.vitoria.courseSystem.entities.Student;
-import br.com.vitoria.courseSystem.entities.Test;
+import br.com.vitoria.courseSystem.entities.Team;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-
 @Embeddable
-public class ResultPK implements Serializable{
+public class RegistrationPK implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
-	@JoinColumn(name="student_pk_id")
-	private Student student;
+	@JoinColumn(name="team_id")
+	private Team team;
 	@ManyToOne
-	@JoinColumn(name="test_pk_id")
-	private Test test;
+	@JoinColumn(name="student_id")
+	private Student student;
 	
 	
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
+	}
 	public Student getStudent() {
 		return student;
 	}
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	public Test getTest() {
-		return test;
-	}
-	public void setTest(Test test) {
-		this.test = test;
-	}
 	
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(student, test);
+		return Objects.hash(student, team);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -49,13 +46,9 @@ public class ResultPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ResultPK other = (ResultPK) obj;
-		return Objects.equals(student, other.student) && Objects.equals(test, other.test);
+		RegistrationPK other = (RegistrationPK) obj;
+		return Objects.equals(student, other.student) && Objects.equals(team, other.team);
 	}
 
 	
-	
-	
-	
-
 }
